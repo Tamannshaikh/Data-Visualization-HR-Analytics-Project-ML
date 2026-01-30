@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  @apply transition-colors duration-300;
+}
+
+.light {
+  @apply bg-gray-100 text-gray-900;
+}
+
+.dark {
+  @apply bg-slate-900 text-white;
+}
+
+.card {
+  @apply rounded-xl p-5 shadow-md transition-colors;
+}
+
+.card-dark {
+  @apply bg-slate-800;
+}
+
+.card-light {
+  @apply bg-white;
+}
+
+.select {
+  @apply px-3 py-2 rounded-lg outline-none w-full;
+}
+.light .card {
+  background-color: white !important;
+  color: #111827;
+}
+
+.dark .card {
+  background-color: #1e293b;
+}
