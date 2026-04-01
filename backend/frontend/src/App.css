@@ -1,0 +1,215 @@
+/* ══════════════════════════════════════════════
+   LIQUID / GAS BACKGROUND BLOBS
+══════════════════════════════════════════════ */
+
+.liquid-bg {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+/* ── Base blob style ── */
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(72px);
+  opacity: 0.55;
+  will-change: transform, border-radius;
+}
+
+/* ── Dark-mode colours ── */
+.dark-blob.blob-1 { background: radial-gradient(circle, #6d28d9, #4f46e5); }
+.dark-blob.blob-2 { background: radial-gradient(circle, #0ea5e9, #7c3aed); }
+.dark-blob.blob-3 { background: radial-gradient(circle, #1d4ed8, #0e7490); }
+.dark-blob.blob-4 { background: radial-gradient(circle, #7c3aed, #db2777); }
+.dark-blob.blob-5 { background: radial-gradient(circle, #0891b2, #4f46e5); }
+
+/* ── Light-mode colours (softer pastels) ── */
+.light-blob.blob-1 { background: radial-gradient(circle, #c4b5fd, #93c5fd); }
+.light-blob.blob-2 { background: radial-gradient(circle, #a5f3fc, #bfdbfe); }
+.light-blob.blob-3 { background: radial-gradient(circle, #ddd6fe, #a5f3fc); }
+.light-blob.blob-4 { background: radial-gradient(circle, #fbcfe8, #c4b5fd); }
+.light-blob.blob-5 { background: radial-gradient(circle, #bae6fd, #e0e7ff); }
+
+/* ── Individual blob sizes, positions & animation ── */
+.blob-1 {
+  width: 720px;
+  height: 720px;
+  top: -180px;
+  left: -160px;
+  animation:
+    drift1 22s ease-in-out infinite alternate,
+    morph1 18s ease-in-out infinite alternate;
+}
+
+.blob-2 {
+  width: 560px;
+  height: 560px;
+  top: 30%;
+  right: -120px;
+  animation:
+    drift2 28s ease-in-out infinite alternate,
+    morph2 22s ease-in-out infinite alternate;
+}
+
+.blob-3 {
+  width: 480px;
+  height: 480px;
+  bottom: 5%;
+  left: 20%;
+  animation:
+    drift3 24s ease-in-out infinite alternate,
+    morph3 20s ease-in-out infinite alternate;
+}
+
+.blob-4 {
+  width: 380px;
+  height: 380px;
+  top: 55%;
+  left: 5%;
+  animation:
+    drift4 32s ease-in-out infinite alternate,
+    morph4 26s ease-in-out infinite alternate;
+}
+
+.blob-5 {
+  width: 640px;
+  height: 640px;
+  bottom: -200px;
+  right: 10%;
+  animation:
+    drift5 20s ease-in-out infinite alternate,
+    morph5 16s ease-in-out infinite alternate;
+}
+
+/* ══ DRIFT keyframes (translation movement) ══ */
+@keyframes drift1 {
+  0%   { transform: translate(0px,   0px)   scale(1);    }
+  33%  { transform: translate(80px,  60px)  scale(1.07); }
+  66%  { transform: translate(-40px, 100px) scale(0.95); }
+  100% { transform: translate(50px, -70px)  scale(1.04); }
+}
+@keyframes drift2 {
+  0%   { transform: translate(0px,   0px)  scale(1);    }
+  33%  { transform: translate(-90px, 70px) scale(1.08); }
+  66%  { transform: translate(60px, -50px) scale(0.93); }
+  100% { transform: translate(-30px, 90px) scale(1.05); }
+}
+@keyframes drift3 {
+  0%   { transform: translate(0px,   0px)  scale(1);    }
+  40%  { transform: translate(70px, -80px) scale(1.06); }
+  80%  { transform: translate(-60px, 50px) scale(0.97); }
+  100% { transform: translate(30px,  60px) scale(1.03); }
+}
+@keyframes drift4 {
+  0%   { transform: translate(0px,   0px)   scale(1);    }
+  50%  { transform: translate(100px,-60px)  scale(1.1);  }
+  100% { transform: translate(-80px, 80px)  scale(0.92); }
+}
+@keyframes drift5 {
+  0%   { transform: translate(0px,   0px)   scale(1);    }
+  35%  { transform: translate(-70px,-90px)  scale(1.05); }
+  70%  { transform: translate(90px,  40px)  scale(0.96); }
+  100% { transform: translate(-30px,-50px)  scale(1.08); }
+}
+
+/* ══ MORPH keyframes (border-radius shape-shifting) ══ */
+@keyframes morph1 {
+  0%   { border-radius: 60% 40% 70% 30% / 50% 60% 40% 50%; }
+  25%  { border-radius: 40% 60% 30% 70% / 60% 40% 60% 40%; }
+  50%  { border-radius: 70% 30% 50% 50% / 30% 70% 30% 70%; }
+  75%  { border-radius: 30% 70% 60% 40% / 70% 30% 50% 50%; }
+  100% { border-radius: 50% 50% 40% 60% / 40% 60% 70% 30%; }
+}
+@keyframes morph2 {
+  0%   { border-radius: 50% 50% 60% 40% / 40% 60% 50% 50%; }
+  33%  { border-radius: 70% 30% 40% 60% / 60% 40% 70% 30%; }
+  66%  { border-radius: 30% 70% 50% 50% / 50% 50% 30% 70%; }
+  100% { border-radius: 60% 40% 70% 30% / 30% 70% 60% 40%; }
+}
+@keyframes morph3 {
+  0%   { border-radius: 40% 60% 50% 50% / 60% 40% 60% 40%; }
+  50%  { border-radius: 60% 40% 30% 70% / 40% 60% 40% 60%; }
+  100% { border-radius: 50% 50% 70% 30% / 70% 30% 50% 50%; }
+}
+@keyframes morph4 {
+  0%   { border-radius: 70% 30% 60% 40% / 30% 70% 40% 60%; }
+  40%  { border-radius: 30% 70% 40% 60% / 60% 40% 70% 30%; }
+  80%  { border-radius: 50% 50% 70% 30% / 40% 60% 30% 70%; }
+  100% { border-radius: 60% 40% 30% 70% / 70% 30% 60% 40%; }
+}
+@keyframes morph5 {
+  0%   { border-radius: 55% 45% 65% 35% / 45% 55% 35% 65%; }
+  30%  { border-radius: 35% 65% 45% 55% / 65% 35% 55% 45%; }
+  60%  { border-radius: 65% 35% 55% 45% / 35% 65% 45% 55%; }
+  100% { border-radius: 45% 55% 35% 65% / 55% 45% 65% 35%; }
+}
+
+/* ══════════════════════════════════════════════
+   FLOATING BUBBLES
+══════════════════════════════════════════════ */
+
+.bubbles-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;           /* sits just above blobs, below dashboard */
+}
+
+.bubble {
+  position: absolute;
+  bottom: -80px;        /* start below the viewport */
+  border-radius: 50%;
+  animation: bubble-rise linear infinite;
+}
+
+/* Dark mode: glassy white-blue shimmer */
+.bubble-dark {
+  background: radial-gradient(
+    circle at 35% 35%,
+    rgba(255, 255, 255, 0.55),
+    rgba(147, 197, 253, 0.18) 60%,
+    transparent 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: inset 0 0 6px rgba(255,255,255,0.12);
+}
+
+/* Light mode: soft soap-bubble iridescence */
+.bubble-light {
+  background: radial-gradient(
+    circle at 35% 35%,
+    rgba(255, 255, 255, 0.75),
+    rgba(196, 181, 253, 0.25) 60%,
+    transparent 100%
+  );
+  border: 1px solid rgba(200, 200, 255, 0.35);
+  box-shadow: inset 0 0 6px rgba(255,255,255,0.4);
+}
+
+/* Rise + horizontal wobble using CSS custom property --wobble */
+@keyframes bubble-rise {
+  0% {
+    transform: translateY(0) translateX(0) scale(1);
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;          /* fade in quickly at the bottom */
+  }
+  45% {
+    transform: translateY(-45vh) translateX(var(--wobble)) scale(1.04);
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-105vh) translateX(0) scale(0.85);
+    opacity: 0;          /* fade out near the top */
+  }
+}
+

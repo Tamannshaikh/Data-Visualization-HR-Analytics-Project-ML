@@ -91,18 +91,18 @@ export default function KPISection({ data, setFilters }) {
           <div
             key={i}
             onClick={card.action}
-            className="relative cursor-pointer rounded-xl p-[2px] bg-gradient-to-r 
-                       hover:scale-[1.03] transition-all duration-300"
+            className="relative cursor-pointer rounded-xl p-[1px] bg-gradient-to-r
+                       hover:scale-[1.015] hover:shadow-md transition-all duration-300"
           >
-            <div className={`absolute inset-0 rounded-xl blur-md opacity-60 bg-gradient-to-r ${card.glow}`}></div>
+            <div className={`absolute inset-0 rounded-xl blur-sm opacity-25 bg-gradient-to-r ${card.glow}`}></div>
 
-            <div className="relative bg-white dark:bg-slate-900 rounded-xl p-5 shadow-lg">
+            <div className="relative bg-white dark:bg-slate-900 rounded-xl p-4 shadow-sm">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-gray-500 dark:text-gray-400">
                     {card.title}
                   </p>
-                  <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
+                  <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mt-0.5">
                     <CountUp value={card.value} />
                   </h2>
 
@@ -116,7 +116,7 @@ export default function KPISection({ data, setFilters }) {
                 </div>
 
                 <div
-                  className={`text-4xl p-3 rounded-full text-white bg-gradient-to-r ${card.glow}`}
+                  className={`text-2xl p-2 rounded-full text-white bg-gradient-to-r ${card.glow} opacity-90`}
                 >
                   {card.icon}
                 </div>
