@@ -29,26 +29,33 @@ app.get("/api/status", (req, res) => {
   res.json({ dbConnected: !!app.locals.dbConnected });
 });
 
-// 🔹 MongoDB connection (Cloud-compatible)
-const MONGODB_URI = process.env.MONGODB_URI;
-
-if (MONGODB_URI) {
-  mongoose.connect(MONGODB_URI)
-    .then(() => {
-      console.log("✅ MongoDB connected successfully!");
-      app.locals.dbConnected = true;
-    })
-    .catch(err => {
-      console.log("❌ MongoDB connection error:", err.message);
-      console.log("⚠️ Switching to Standalone Demo Mode (Local JSON).");
-      app.locals.dbConnected = false;
-      // 🔸 Disable buffering so queries fail immediately instead of timing out
-      mongoose.set('bufferCommands', false);
-    });
-} else {
-  console.log("⚠️ MONGODB_URI is not defined. Using Standalone Demo Mode (Local JSON).");
-  app.locals.dbConnected = false;
+// 🔹 MongoDB connection (Cloud-compatible for Serverless)
+let isConnected = false;
+async function connectDB() {
+  if (isConnected) return;
+  const MONGODB_URI = process.env.MONGODB_URI;
+  if (!MONGODB_URI) {
+    console.log("⚠️ MONGODB_URI is not defined. Using Standalone Demo Mode (Local JSON).");
+    app.locals.dbConnected = false;
+    return;
+  }
+  try {
+    const db = await mongoose.connect(MONGODB_URI);
+    isConnected = db.connections[0].readyState === 1;
+    app.locals.dbConnected = isConnected;
+    console.log("✅ MongoDB connected successfully!");
+  } catch (err) {
+    console.log("❌ MongoDB connection error:", err.message);
+    app.locals.dbConnected = false;
+    mongoose.set('bufferCommands', false);
+  }
 }
+
+// Ensure DB is connected before any API routes
+app.use("/api", async (req, res, next) => {
+  await connectDB();
+  next();
+});
 
 // 🔹 Resolve paths relative to the process working directory (reliable on Vercel)
 const rootPath = process.cwd();
