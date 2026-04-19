@@ -148,6 +148,8 @@ Project Screenshots
 </div>
 
 
+corphrAdmin  user name 
+RuEVnMWowdyfLRON mongoDB password
 ------------------------------------------------------------
 
 Developed by Tamanna

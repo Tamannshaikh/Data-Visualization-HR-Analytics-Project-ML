@@ -24,7 +24,7 @@ export default function Dashboard({ darkMode, setDarkMode }) {
   });
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/employees")
+    axios.get("/api/employees/risk-data")
       .then(res => setEmployees(res.data))
       .catch(err => console.error(err));
   }, []);
