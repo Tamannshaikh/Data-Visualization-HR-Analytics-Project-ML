@@ -2,7 +2,7 @@ const fs = require('fs');
 const pdfParse = require('pdf-parse');
 const { OpenAI } = require('openai');
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY || "dummy-key-to-prevent-crash" });
 
 async function parseResumeAndScore(pdfPath, jobDetails) {
   try {
