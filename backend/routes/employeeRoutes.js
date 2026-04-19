@@ -89,7 +89,11 @@ router.post("/onboard", async (req, res) => {
     const { name, username, email, role, department, salary, password } = req.body;
     
     if (!req.app.locals.dbConnected) {
-       return res.status(503).json({ message: "Database not connected. Cannot onboard employee in Demo Mode." });
+      // Demo Mode: simulate a successful onboard without saving
+      return res.status(201).json({
+        message: "Employee onboarded successfully (Demo Mode - not saved to DB)",
+        employee: { name, username, email, role, department }
+      });
     }
 
     // Check if employee or user already exists
@@ -100,7 +104,7 @@ router.post("/onboard", async (req, res) => {
     if (user) return res.status(400).json({ message: "User with this email already exists" });
 
     // 1. Create Employee Record
-    const joiningDate = new Date(); // Or let them select it, we default to now for onboarding fast
+    const joiningDate = new Date();
     employee = new Employee({ name, username, role, department, email, joiningDate });
     await employee.save();
 
@@ -118,7 +122,6 @@ router.post("/onboard", async (req, res) => {
     const attachmentData = await generateOfferLetter(name, role, salary || "Industry Standard");
 
     // 4. Send Email
-    // Using sendStatusEmail with a special status "Onboarding"
     await sendStatusEmail(email, name, role, "Onboarding", attachmentData, { username, password: password || "Welcome@123" });
 
     res.status(201).json({ message: "Employee onboarded successfully", employee });
@@ -131,15 +134,19 @@ router.post("/onboard", async (req, res) => {
 router.delete("/:id", async (req, res) => {
   try {
     if (!req.app.locals.dbConnected) {
-      return res.status(503).json({ message: "Database not connected. Cannot delete employee in Demo Mode." });
+      // Demo Mode: simulate deletion
+      return res.json({ message: "Employee removed successfully (Demo Mode)" });
     }
+
+    // Find employee first to get email for user account cleanup
     const employee = await Employee.findById(req.params.id);
     if (!employee) return res.status(404).json({ message: "Employee not found" });
 
-    // Also remove associated user account so they can be re-onboarded
+    // Remove associated user account so they can be re-onboarded
     await User.findOneAndDelete({ email: employee.email });
 
-    await employee.deleteOne();
+    // Delete employee using findByIdAndDelete for reliability
+    await Employee.findByIdAndDelete(req.params.id);
     res.json({ message: "Employee removed successfully" });
   } catch (err) {
     res.status(500).json({ message: "Server error", error: err.message });
