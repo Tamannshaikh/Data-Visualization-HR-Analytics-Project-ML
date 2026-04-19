@@ -25,8 +25,9 @@ app.use("/api/employees", employeeRoutes);
 app.locals.dbConnected = false;
 
 // 🔹 Database Status API (for Frontend)
-app.get("/api/status", (req, res) => {
-  res.json({ dbConnected: !!app.locals.dbConnected });
+app.get("/api/status", async (req, res) => {
+  await connectDB();
+  res.json({ dbConnected: !!app.locals.dbConnected, error: app.locals.dbError || null });
 });
 
 // 🔹 MongoDB connection (Cloud-compatible for Serverless)
@@ -40,13 +41,15 @@ async function connectDB() {
     return;
   }
   try {
-    const db = await mongoose.connect(MONGODB_URI);
+    const db = await mongoose.connect(MONGODB_URI, { serverSelectionTimeoutMS: 5000 });
     isConnected = db.connections[0].readyState === 1;
     app.locals.dbConnected = isConnected;
+    app.locals.dbError = null;
     console.log("✅ MongoDB connected successfully!");
   } catch (err) {
     console.log("❌ MongoDB connection error:", err.message);
     app.locals.dbConnected = false;
+    app.locals.dbError = err.message;
     mongoose.set('bufferCommands', false);
   }
 }
